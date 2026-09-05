@@ -77,8 +77,8 @@ const state = { model: 'PS5 Disc', coverage: 'Console Only', price: 1500, qty: 1
   document.getElementById('addToCartBtn').addEventListener('click', addMainToCart);
   document.getElementById('stickyAddBtn').addEventListener('click', addMainToCart);
   document.getElementById('bundleAddBtn').addEventListener('click', () => {
-    window.OwnItCart.addToCart({ id:'weaponx-controller', name:'Weapon X Controller Skin', variant:'Controller Only', price:500, image:'images/product-weaponx-controller-only.jpg', qty:1 });
-    window.OwnItCart.addToCart({ id:'weaponx-headset', name:'Weapon X Headset', variant:'Accessory', price:2100, image:'images/accessory-weaponx-headphones.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'weaponx-controller', name:'Weapon X Controller Skin', variant:'Controller Only', price:500, image:'/images/product-weaponx-controller-only.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'weaponx-headset', name:'Weapon X Headset', variant:'Accessory', price:2100, image:'/images/accessory-weaponx-headphones.jpg', qty:1 });
   });
 
   // Sticky bar visibility

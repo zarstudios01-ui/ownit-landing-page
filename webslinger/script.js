@@ -77,7 +77,7 @@ const state = { model: 'PS5 Disc', coverage: 'Console Only', price: 1500, qty: 1
   document.getElementById('addToCartBtn').addEventListener('click', addMainToCart);
   document.getElementById('stickyAddBtn').addEventListener('click', addMainToCart);
   document.getElementById('bundleAddBtn').addEventListener('click', () => {
-    window.OwnItCart.addToCart({ id:'webslinger-controller', name:'Webslinger Controller Skin', variant:'Controller Only', price:500, image:'images/product-webslinger-controller.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'webslinger-controller', name:'Webslinger Controller Skin', variant:'Controller Only', price:500, image:'/images/product-webslinger-controller.jpg', qty:1 });
   });
 
   // Sticky bar visibility

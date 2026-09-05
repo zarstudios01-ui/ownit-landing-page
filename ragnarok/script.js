@@ -77,7 +77,7 @@ const state = { model: 'PS5 Disc', coverage: 'Console Only', price: 1500, qty: 1
   document.getElementById('addToCartBtn').addEventListener('click', addMainToCart);
   document.getElementById('stickyAddBtn').addEventListener('click', addMainToCart);
   document.getElementById('bundleAddBtn').addEventListener('click', () => {
-    window.OwnItCart.addToCart({ id:'ragnarok-controller', name:'Ragnarok Controller Skin', variant:'Controller Only', price:500, image:'images/product-ragnarok-controller.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'ragnarok-controller', name:'Ragnarok Controller Skin', variant:'Controller Only', price:500, image:'/images/product-ragnarok-controller.jpg', qty:1 });
   });
 
   // Sticky bar visibility

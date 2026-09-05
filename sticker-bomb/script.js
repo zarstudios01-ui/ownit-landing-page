@@ -77,7 +77,7 @@ const state = { model: 'PS5 Disc', coverage: 'Console Only', price: 1400, qty: 1
   document.getElementById('addToCartBtn').addEventListener('click', addMainToCart);
   document.getElementById('stickyAddBtn').addEventListener('click', addMainToCart);
   document.getElementById('bundleAddBtn').addEventListener('click', () => {
-    window.OwnItCart.addToCart({ id:'stickerbomb-controller', name:'Sticker Bomb Controller Skin', variant:'Controller Only', price:500, image:'images/product-stickerbomb-controller.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'stickerbomb-controller', name:'Sticker Bomb Controller Skin', variant:'Controller Only', price:500, image:'/images/product-stickerbomb-controller.jpg', qty:1 });
   });
 
   // Sticky bar visibility
