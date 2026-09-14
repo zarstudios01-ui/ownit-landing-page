@@ -132,7 +132,11 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     const result = await response.json();
 
     if (!response.ok || !result.success) {
-      throw new Error(result.error || 'Could not save order.');
+  throw new Error(
+    result.detail
+      ? `${result.error || 'Could not save order.'} — ${result.detail}`
+      : (result.error || 'Could not save order.')
+  );
     }
 
     // Use the REAL database order ID
@@ -156,8 +160,8 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     console.error('Order submission failed:', error);
 
     alert(
-      'We could not save your order. Please check your connection and try again.'
-    );
+  `Order failed: ${error.message}`
+);
 
     placeOrderBtn.disabled = false;
     placeOrderBtn.textContent = 'Place Order';
