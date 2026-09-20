@@ -121,7 +121,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
   placeOrderBtn.textContent = 'Saving Order...';
 
   try {
-    const response = await fetch('https://dashboardown1it.infinityfree.me/api/create-order.php', {
+    const response = await fetch('/api/create-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
