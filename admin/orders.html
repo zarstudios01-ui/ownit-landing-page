@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OwnIt — Orders</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand">OWNIT<span>.</span></div>
+
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="orders.html" class="active">Orders</a>
+        <a href="#">Customers</a>
+        <a href="#">Products</a>
+    </nav>
+</div>
+
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <p class="eyebrow">COMMERCE</p>
+            <h1>Orders</h1>
+        </div>
+
+        <div class="status">
+            <span></span> Backend connected
+        </div>
+    </header>
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <p class="eyebrow">ORDER MANAGEMENT</p>
+            <h2>All Orders</h2>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="ordersTable">
+                    <tr>
+                        <td colspan="6">Loading orders...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+    <section id="orderDetails" class="panel order-details hidden">
+        <div class="panel-header">
+            <p class="eyebrow">ORDER DETAILS</p>
+            <h2 id="detailOrder">Order</h2>
+        </div>
+
+        <div id="detailContent"></div>
+    </section>
+
+</main>
+
+<script src="auth.js"></script>
+<script src="orders.js"></script>
+</body>
+</html>
