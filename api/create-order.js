@@ -1,4 +1,5 @@
 const { getPool, cors } = require('./_db');
+const { notifyNewOrder } = require('./_notify');
 
 module.exports = async (req, res) => {
   cors(res);
@@ -44,6 +45,7 @@ module.exports = async (req, res) => {
       );
     }
     await conn.commit();
+    await notifyNewOrder({ id: o.insertId, customer_name: name, email, phone, shipping_address: addr, total, items: d.items.map(it => ({ product_name: it.name, variant: it.variant, quantity: parseInt(it.qty) || 1 })) });
     res.status(200).json({ success: true, order_id: o.insertId });
   } catch (e) {
     await conn.rollback().catch(() => {});
