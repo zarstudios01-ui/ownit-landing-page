@@ -10,7 +10,8 @@ function getPool() {
       database: process.env.TIDB_DATABASE,
       ssl: { minVersion: 'TLSv1.2', rejectUnauthorized: true },
       connectionLimit: 3,
-      waitForConnections: true
+      waitForConnections: true,
+      dateStrings: true
     });
   }
   return pool;
@@ -18,6 +19,6 @@ function getPool() {
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
 }
 module.exports = { getPool, cors };
