@@ -13,10 +13,10 @@ function askKey() {
   });
 }
 
-async function adminFetch(url) {
+async function adminFetch(url, options = {}) {
   let key = sessionStorage.getItem('ownit_admin_key');
   if (!key) key = await askKey();
-  const res = await fetch(url, { headers: { 'x-admin-key': key } });
+  const res = await fetch(url, { ...options, headers: { ...(options.headers || {}), 'x-admin-key': key } });
   if (res.status === 401) {
     sessionStorage.removeItem('ownit_admin_key');
     throw new Error('Wrong admin key');

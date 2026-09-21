@@ -334,3 +334,7 @@ td {
         grid-template-columns: 1fr;
     }
 }
+
+.status-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.status-btn { padding: 6px 10px; border-radius: 8px; border: 1px solid #444; background: transparent; color: inherit; cursor: pointer; text-transform: capitalize; }
+.status-btn:disabled { opacity: 0.4; cursor: default; }

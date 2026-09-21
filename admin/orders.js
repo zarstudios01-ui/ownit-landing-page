@@ -89,6 +89,11 @@ function showOrder(id) {
             <div>
                 <p class="eyebrow">ORDER STATUS</p>
                 <span class="status-badge">${escapeHTML(order.status)}</span>
+                <div class="status-actions">
+                    ${['pending','confirmed','shipped','delivered','cancelled'].map(st => `
+                        <button class="status-btn" data-id="${order.id}" data-status="${st}" ${st === order.status ? 'disabled' : ''}>${st}</button>
+                    `).join('')}
+                </div>
             </div>
         </div>
 
@@ -114,6 +119,8 @@ function showOrder(id) {
             <strong>${formatMoney(order.total)}</strong>
         </div>
     `;
+
+    content.querySelectorAll('.status-btn').forEach(b => b.addEventListener('click', () => setStatus(Number(b.dataset.id), b.dataset.status, b)));
 
     details.classList.remove('hidden');
 
@@ -148,3 +155,21 @@ function escapeHTML(value) {
 }
 
 loadOrders();
+
+async function setStatus(id, status, btn) {
+    btn.disabled = true;
+    try {
+        const r = await adminFetch('/api/update-order-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order_id: id, status })
+        });
+        const d = await r.json();
+        if (!r.ok || !d.success) throw new Error(d.error || 'Update failed');
+        await loadOrders();
+        showOrder(id);
+    } catch (e) {
+        alert(e.message);
+        btn.disabled = false;
+    }
+}
