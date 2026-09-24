@@ -3,5 +3,8 @@
     "api/chat.js": {
       "includeFiles": "data/**"
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/:slug/", "destination": "/api/product-page?slug=:slug" }
+  ]
 }
