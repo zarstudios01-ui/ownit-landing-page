@@ -372,7 +372,7 @@ module.exports = async function handler(req, res) {
       </div>
       <div class="bundle-grid" style="grid-template-columns:minmax(260px,360px);">
         <div class="bundle-card included">
-          <div class="bundle-media"><img sc="${esc(controllerImage)}" width="360" height="270" alt="${esc(p.name)} DualSense controller skin" loading="lazy"></div>
+          <div class="bundle-media"><img src="${esc(controllerImage)}" width="360" height="270" alt="${esc(p.name)} DualSense controller skin" loading="lazy"></div>
           <div class="bundle-body"><h3>${esc(p.name)} Controller Skin</h3><span class="bp">Rs. 500</span></div>
         </div>
       </div>
