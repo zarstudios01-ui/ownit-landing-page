@@ -205,7 +205,7 @@ async function submitForm(e, isEdit, slug) {
     };
 
     try {
-        const url = isEdit ? `${API_URL}/${encodeURIComponent(slug)}` : API_URL;
+        const url = isEdit ? `${API_URL}?slug=${encodeURIComponent(slug)}` : API_URL;
         const method = isEdit ? 'PUT' : 'POST';
         const r = await adminFetch(url, {
             method,
@@ -226,7 +226,7 @@ async function submitForm(e, isEdit, slug) {
 async function deleteProduct(slug) {
     if (!confirm(`Delete "${slug}"? This cannot be undone.`)) return;
     try {
-        const r = await adminFetch(`${API_URL}/${encodeURIComponent(slug)}`, { method: 'DELETE' });
+        const r = await adminFetch(`${API_URL}?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' });
         const d = await r.json();
         if (!r.ok || !d.success) throw new Error(d.error || 'Delete failed');
         await loadProducts();
