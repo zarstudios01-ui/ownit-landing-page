@@ -4,6 +4,7 @@
   "private": true,
   "description": "OwnIt — custom PS5 skins storefront with a Vercel serverless AI assistant.",
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
     "mysql2": "^3.11.0"
   }
 }
