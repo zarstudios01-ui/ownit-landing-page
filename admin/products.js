@@ -94,8 +94,9 @@ function openForm(slug) {
             <label>Meta Keywords
                 <input name="meta_keywords" value="${escapeHTML(product?.meta_keywords || '')}">
             </label>
-            <label>Images (comma-separated paths — push images to /images via git first, e.g. /images/ragnarok-card.jpg, /images/ragnarok-hero.jpg)
-                <textarea name="images">${escapeHTML((product?.images || []).join(', '))}</textarea>
+            <label>Images (push files to /images via git first, then add each path)
+                <div id="imagesList"></div>
+                <button type="button" id="addImageBtn">+ Add Image</button>
             </label>
             <label>Variants (one per line: name|price)
                 <textarea name="variants">${(product?.variants || []).map(v => `${v.name}|${v.price}`).join('\n')}</textarea>
@@ -111,11 +112,28 @@ function openForm(slug) {
         </form>
     `;
 
+    const initialImages = (product?.images && product.images.length) ? product.images : [''];
+    initialImages.forEach(img => addImageRow(img));
+
+    document.getElementById('addImageBtn').addEventListener('click', () => addImageRow());
+
     panel.classList.remove('hidden');
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     document.getElementById('cancelForm').addEventListener('click', () => panel.classList.add('hidden'));
     document.getElementById('pForm').addEventListener('submit', (e) => submitForm(e, isEdit, slug));
+}
+
+function addImageRow(value = '') {
+    const list = document.getElementById('imagesList');
+    const row = document.createElement('div');
+    row.className = 'image-row';
+    row.innerHTML = `
+        <input type="text" class="image-input" value="${escapeHTML(value)}" placeholder="/images/example.jpg">
+        <button type="button" class="remove-image-btn">✕</button>
+    `;
+    list.appendChild(row);
+    row.querySelector('.remove-image-btn').addEventListener('click', () => row.remove());
 }
 
 async function submitForm(e, isEdit, slug) {
@@ -124,7 +142,10 @@ async function submitForm(e, isEdit, slug) {
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
-    const images = form.images.value.split(',').map(s => s.trim()).filter(Boolean);
+    const images = Array.from(form.querySelectorAll('.image-input'))
+        .map(i => i.value.trim())
+        .filter(Boolean);
+
     const variants = form.variants.value.split('\n').map(s => s.trim()).filter(Boolean).map(line => {
         const [name, price] = line.split('|').map(s => s.trim());
         return { name, price: Number(price) || 0 };

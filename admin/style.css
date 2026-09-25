@@ -338,3 +338,90 @@ td {
 .status-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .status-btn { padding: 6px 10px; border-radius: 8px; border: 1px solid #444; background: transparent; color: inherit; cursor: pointer; text-transform: capitalize; }
 .status-btn:disabled { opacity: 0.4; cursor: default; }
+
+#productForm form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+#productForm form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #999;
+}
+
+#productForm form input:not([type="checkbox"]),
+#productForm form textarea {
+    padding: 10px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#productForm form textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+
+#productForm fieldset {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+#productForm fieldset legend {
+    padding: 0 6px;
+    font-size: 13px;
+    color: #999;
+}
+
+.related-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 14px;
+    color: #fff;
+}
+
+.related-check input {
+    width: auto;
+}
+
+#imagesList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.image-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.image-row input {
+    flex: 1;
+}
+
+.image-row button {
+    flex-shrink: 0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#addImageBtn {
+    align-self: flex-start;
+}
