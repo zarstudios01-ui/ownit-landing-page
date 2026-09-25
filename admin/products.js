@@ -1,4 +1,5 @@
 const API_URL = '/api/admin/products';
+const UPLOAD_URL = '/api/admin/upload-image';
 
 let products = [];
 
@@ -94,9 +95,11 @@ function openForm(slug) {
             <label>Meta Keywords
                 <input name="meta_keywords" value="${escapeHTML(product?.meta_keywords || '')}">
             </label>
-            <label>Images (push files to /images via git first, then add each path)
+            <label>Images
                 <div id="imagesList"></div>
+                <input type="file" id="imageFilePicker" accept="image/*" style="display:none">
                 <button type="button" id="addImageBtn">+ Add Image</button>
+                <span id="uploadStatus"></span>
             </label>
             <label>Variants (one per line: name|price)
                 <textarea name="variants">${(product?.variants || []).map(v => `${v.name}|${v.price}`).join('\n')}</textarea>
@@ -112,10 +115,11 @@ function openForm(slug) {
         </form>
     `;
 
-    const initialImages = (product?.images && product.images.length) ? product.images : [''];
-    initialImages.forEach(img => addImageRow(img));
+    (product?.images || []).forEach(img => addImageRow(img));
 
-    document.getElementById('addImageBtn').addEventListener('click', () => addImageRow());
+    const filePicker = document.getElementById('imageFilePicker');
+    document.getElementById('addImageBtn').addEventListener('click', () => filePicker.click());
+    filePicker.addEventListener('change', () => handleFileSelected(filePicker));
 
     panel.classList.remove('hidden');
     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -124,12 +128,46 @@ function openForm(slug) {
     document.getElementById('pForm').addEventListener('submit', (e) => submitForm(e, isEdit, slug));
 }
 
-function addImageRow(value = '') {
+async function handleFileSelected(filePicker) {
+    const file = filePicker.files[0];
+    if (!file) return;
+
+    const status = document.getElementById('uploadStatus');
+    const addBtn = document.getElementById('addImageBtn');
+    status.textContent = 'Uploading...';
+    addBtn.disabled = true;
+
+    try {
+        const r = await adminFetch(UPLOAD_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': file.type || 'application/octet-stream',
+                'x-filename': file.name
+            },
+            body: file
+        });
+        const d = await r.json();
+        if (!r.ok || !d.success) throw new Error(d.error || 'Upload failed');
+
+        addImageRow(d.url);
+        status.textContent = '';
+    } catch (err) {
+        status.textContent = '';
+        alert(err.message);
+    } finally {
+        addBtn.disabled = false;
+        filePicker.value = '';
+    }
+}
+
+function addImageRow(url) {
     const list = document.getElementById('imagesList');
     const row = document.createElement('div');
     row.className = 'image-row';
     row.innerHTML = `
-        <input type="text" class="image-input" value="${escapeHTML(value)}" placeholder="/images/example.jpg">
+        <img src="${escapeHTML(url)}" class="image-thumb" alt="">
+        <input type="hidden" class="image-input" value="${escapeHTML(url)}">
+        <span class="image-url-text">${escapeHTML(url)}</span>
         <button type="button" class="remove-image-btn">✕</button>
     `;
     list.appendChild(row);
