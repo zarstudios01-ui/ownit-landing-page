@@ -425,3 +425,14 @@ td {
 #addImageBtn {
     align-self: flex-start;
 }
+
+#productForm form input:not([type="checkbox"]),
+#productForm form textarea {
+    background: transparent;
+    color: #111;
+    border: 1px solid #ccc;
+}
+
+.related-check {
+    color: #111;
+}
