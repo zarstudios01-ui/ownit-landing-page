@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OwnIt — Orders</title>
+    <title>OwnIt — Products</title>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,9 +14,9 @@
 
     <nav>
         <a href="index.html">Dashboard</a>
-        <a href="orders.html" class="active">Orders</a>
+        <a href="orders.html">Orders</a>
         <a href="#">Customers</a>
-        <a href="products.html">Products</a>
+        <a href="products.html" class="active">Products</a>
     </nav>
 </div>
 
@@ -25,7 +25,7 @@
     <header class="topbar">
         <div>
             <p class="eyebrow">COMMERCE</p>
-            <h1>Orders</h1>
+            <h1>Products</h1>
         </div>
 
         <div class="status">
@@ -36,26 +36,27 @@
     <section class="panel">
 
         <div class="panel-header">
-            <p class="eyebrow">ORDER MANAGEMENT</p>
-            <h2>All Orders</h2>
+            <p class="eyebrow">PRODUCT MANAGEMENT</p>
+            <h2>All Products</h2>
+            <button id="addProductBtn">Add Product</button>
         </div>
 
         <div class="table-wrap">
             <table>
                 <thead>
                     <tr>
-                        <th>Order</th>
-                        <th>Customer</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>SKU</th>
+                        <th>Badge</th>
+                        <th>Category</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
-                <tbody id="ordersTable">
+                <tbody id="productsTable">
                     <tr>
-                        <td colspan="6">Loading orders...</td>
+                        <td colspan="6">Loading products...</td>
                     </tr>
                 </tbody>
             </table>
@@ -63,18 +64,11 @@
 
     </section>
 
-    <section id="orderDetails" class="panel order-details hidden">
-        <div class="panel-header">
-            <p class="eyebrow">ORDER DETAILS</p>
-            <h2 id="detailOrder">Order</h2>
-        </div>
-
-        <div id="detailContent"></div>
-    </section>
+    <section id="productForm" class="panel hidden"></section>
 
 </main>
 
 <script src="auth.js"></script>
-<script src="orders.js"></script>
+<script src="products.js"></script>
 </body>
 </html>
