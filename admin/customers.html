@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OwnIt — Products</title>
+    <title>OwnIt — Customers</title>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,8 +15,8 @@
     <nav>
         <a href="index.html">Dashboard</a>
         <a href="orders.html">Orders</a>
-        <a href="customers.html">Customers</a>
-        <a href="products.html" class="active">Products</a>
+        <a href="customers.html" class="active">Customers</a>
+        <a href="products.html">Products</a>
     </nav>
 </div>
 
@@ -25,7 +25,7 @@
     <header class="topbar">
         <div>
             <p class="eyebrow">COMMERCE</p>
-            <h1>Products</h1>
+            <h1>Customers</h1>
         </div>
 
         <div class="status">
@@ -36,9 +36,8 @@
     <section class="panel">
 
         <div class="panel-header">
-            <p class="eyebrow">PRODUCT MANAGEMENT</p>
-            <h2>All Products</h2>
-            <button id="addProductBtn">Add Product</button>
+            <p class="eyebrow">CUSTOMER LIST</p>
+            <h2>All Customers</h2>
         </div>
 
         <div class="table-wrap">
@@ -46,17 +45,16 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Slug</th>
-                        <th>SKU</th>
-                        <th>Badge</th>
-                        <th>Category</th>
-                        <th>Actions</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Orders</th>
+                        <th>Total Spent</th>
                     </tr>
                 </thead>
 
-                <tbody id="productsTable">
+                <tbody id="customersTable">
                     <tr>
-                        <td colspan="6">Loading products...</td>
+                        <td colspan="5">Loading customers...</td>
                     </tr>
                 </tbody>
             </table>
@@ -64,11 +62,9 @@
 
     </section>
 
-    <section id="productForm" class="panel hidden"></section>
-
 </main>
 
 <script src="auth.js"></script>
-<script src="products.js"></script>
+<script src="customers.js"></script>
 </body>
 </html>
