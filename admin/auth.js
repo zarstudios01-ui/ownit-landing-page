@@ -13,14 +13,47 @@ function askKey() {
   });
 }
 
+async function resolveRole(key) {
+  try {
+    const res = await fetch('/api/dashboard-stats', { headers: { 'x-admin-key': key } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.role || null;
+  } catch {
+    return null;
+  }
+}
+
 async function adminFetch(url, options = {}) {
   let key = sessionStorage.getItem('ownit_admin_key');
   if (!key) key = await askKey();
+
+  if (!sessionStorage.getItem('ownit_admin_role')) {
+    const role = await resolveRole(key);
+    if (!role) {
+      sessionStorage.removeItem('ownit_admin_key');
+      throw new Error('Wrong admin key');
+    }
+    sessionStorage.setItem('ownit_admin_role', role);
+  }
+
   const res = await fetch(url, { ...options, headers: { ...(options.headers || {}), 'x-admin-key': key } });
   if (res.status === 401) {
     sessionStorage.removeItem('ownit_admin_key');
+    sessionStorage.removeItem('ownit_admin_role');
     throw new Error('Wrong admin key');
   }
   sessionStorage.setItem('ownit_admin_key', key);
   return res;
+}
+
+function isAdmin() {
+  return sessionStorage.getItem('ownit_admin_role') === 'admin';
+}
+
+function applyRoleUI() {
+  if (!isAdmin()) {
+    document.querySelectorAll('.edit-btn, .delete-btn, .add-product-btn, .status-btn, .upload-image-btn, #addProductBtn')
+      .forEach(el => { el.style.display = 'none'; });
+  }
 }

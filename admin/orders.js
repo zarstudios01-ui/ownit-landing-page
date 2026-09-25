@@ -122,6 +122,7 @@ function showOrder(id) {
 
     content.querySelectorAll('.status-btn').forEach(b => b.addEventListener('click', () => setStatus(Number(b.dataset.id), b.dataset.status, b)));
 
+    applyRoleUI();
     details.classList.remove('hidden');
 
     details.scrollIntoView({
@@ -154,7 +155,7 @@ function escapeHTML(value) {
     return div.innerHTML;
 }
 
-loadOrders();
+loadOrders().then(applyRoleUI);
 
 async function setStatus(id, status, btn) {
     btn.disabled = true;

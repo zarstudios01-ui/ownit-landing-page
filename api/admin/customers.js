@@ -1,11 +1,17 @@
 const { getPool, cors } = require('../_db');
-const { requireAdmin } = require('../_auth');
+const { requireAnyRole } = require('../_auth');
+
+function mask(str, keepStart = 2) {
+  if (!str) return str;
+  return String(str).slice(0, keepStart) + '***';
+}
 
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
-  if (!requireAdmin(req, res)) return;
+  const role = requireAnyRole(req, res);
+  if (!role) return;
 
   try {
     const pool = getPool();
@@ -18,7 +24,17 @@ module.exports = async (req, res) => {
       GROUP BY c.id
       ORDER BY c.id DESC
     `);
-    res.status(200).json({ success: true, customers: rows });
+
+    const output = role === 'viewer'
+      ? rows.map(r => ({
+          ...r,
+          name: mask(r.name, 1),
+          email: mask(r.email, 2),
+          phone: mask(r.phone, 3),
+        }))
+      : rows;
+
+    res.status(200).json({ success: true, customers: output });
   } catch (e) {
     console.error('Admin customers list failed:', e.message);
     res.status(500).json({ error: 'Could not fetch customers.' });

@@ -1,11 +1,17 @@
 const { getPool, cors } = require('./_db');
-const { requireAdmin } = require('./_auth');
+const { requireAnyRole } = require('./_auth');
+
+function mask(str, keepStart = 2) {
+  if (!str) return str;
+  return String(str).slice(0, keepStart) + '***';
+}
 
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
-  if (!requireAdmin(req, res)) return;
+  const role = requireAnyRole(req, res);
+  if (!role) return;
   try {
     const pool = getPool();
     const [[[s]], [[cu]], [recent], [top]] = await Promise.all([
@@ -14,8 +20,14 @@ module.exports = async (req, res) => {
       pool.query('SELECT o.id, c.name AS customer_name, c.email, o.status, o.total, o.created_at FROM orders o LEFT JOIN customers c ON c.id = o.customer_id ORDER BY o.id DESC LIMIT 10'),
       pool.query('SELECT product_id, product_name, SUM(quantity) AS units_sold, SUM(price*quantity) AS revenue FROM order_items GROUP BY product_id, product_name ORDER BY units_sold DESC LIMIT 10')
     ]);
+
+    const recentOutput = role === 'viewer'
+      ? recent.map(r => ({ ...r, customer_name: mask(r.customer_name, 1), email: mask(r.email, 2) }))
+      : recent;
+
     res.status(200).json({
       success: true,
+      role,
       stats: {
         total_orders: Number(s.total_orders),
         total_revenue: Number(s.total_revenue),
@@ -25,7 +37,7 @@ module.exports = async (req, res) => {
         completed_orders: Number(s.completed_orders || 0),
         cancelled_orders: Number(s.cancelled_orders || 0)
       },
-      recent_orders: recent,
+      recent_orders: recentOutput,
       top_products: top
     });
   } catch (e) {

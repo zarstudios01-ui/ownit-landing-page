@@ -216,7 +216,7 @@ async function submitForm(e, isEdit, slug) {
         if (!r.ok || !d.success) throw new Error(d.error || 'Save failed');
 
         document.getElementById('productForm').classList.add('hidden');
-        await loadProducts();
+        await loadProducts(); applyRoleUI();
     } catch (err) {
         alert(err.message);
         submitBtn.disabled = false;
@@ -229,7 +229,7 @@ async function deleteProduct(slug) {
         const r = await adminFetch(`${API_URL}?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' });
         const d = await r.json();
         if (!r.ok || !d.success) throw new Error(d.error || 'Delete failed');
-        await loadProducts();
+        await loadProducts(); applyRoleUI();
     } catch (err) {
         alert(err.message);
     }
@@ -248,4 +248,4 @@ function escapeHTML(value) {
 
 document.getElementById('addProductBtn').addEventListener('click', () => openForm(null));
 
-loadProducts();
+loadProducts().then(applyRoleUI);

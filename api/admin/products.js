@@ -1,10 +1,10 @@
 const { getPool, cors } = require('../_db');
-const { requireAdmin } = require('../_auth');
+const { requireAdmin, requireAnyRole } = require('../_auth');
 
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
-  if (!requireAdmin(req, res)) return;
+  if (req.method === "GET") { if (!requireAnyRole(req, res)) return; } else { if (!requireAdmin(req, res)) return; }
 
   const pool = getPool();
   const slug = req.query.slug;
